@@ -6,6 +6,7 @@
 
     <persistence-unit name="applicationPetstorePU" transaction-type="JTA">
         <jta-data-source>java:global/jdbc/applicationPetstoreDS</jta-data-source>
+        <non-jta-data-source>java:global/jdbc/applicationPetstoreDSNonJta</non-jta-data-source>
         <class>org.agoncal.application.petstore.domain.Category</class>
         <class>org.agoncal.application.petstore.domain.Customer</class>
         <class>org.agoncal.application.petstore.domain.Item</class>
