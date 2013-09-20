@@ -16,9 +16,9 @@
     <version.junit>4.10</version.junit>
     <version.mockito>1.9.0</version.mockito>
     <version.arquillian>1.0.1.Final</version.arquillian>
-    <version.openejb>4.1.0-SNAPSHOT</version.openejb>
+    <version.openejb>4.6.0-SNAPSHOT</version.openejb>
     <version.openejb.javaee-api>6.0-4</version.openejb.javaee-api>
-    <version.tomee>1.1.0-SNAPSHOT</version.tomee>
+    <version.tomee>1.6.0-SNAPSHOT</version.tomee>
     <version.myfaces>2.1.7</version.myfaces>
     <version.arquillian.glassfish.embedded>1.0.0.CR3</version.arquillian.glassfish.embedded>
     <version.arquillian.jboss.managed>7.1.1.Final</version.arquillian.jboss.managed>
@@ -67,7 +67,7 @@
     <dependency>
       <groupId>org.apache.openejb</groupId>
       <artifactId>mbean-annotation-api</artifactId>
-      <version>4.1.0-SNAPSHOT</version>
+      <version>${version.openejb}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -159,7 +159,7 @@
       <plugin>
         <groupId>org.apache.openejb.maven</groupId>
         <artifactId>tomee-maven-plugin</artifactId>
-        <version>1.5.2</version>
+        <version>${version.tomee}</version>
         <configuration>
           <args>-Xmx512m -XX:PermSize=256m -XX:MaxPermSize=256m</args>
           <systemVariables>
