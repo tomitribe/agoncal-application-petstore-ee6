@@ -4,13 +4,21 @@ import org.agoncal.application.petstore.domain.Category;
 import org.agoncal.application.petstore.domain.Item;
 import org.agoncal.application.petstore.domain.Product;
 import org.agoncal.application.petstore.exception.ValidationException;
+import org.agoncal.application.petstore.persistence.PersistenceHandler;
+import org.agoncal.application.petstore.persistence.Find;
+import org.agoncal.application.petstore.persistence.Merge;
+import org.agoncal.application.petstore.persistence.NamedQuery;
+import org.agoncal.application.petstore.persistence.Persist;
+import org.agoncal.application.petstore.persistence.QueryParam;
+import org.agoncal.application.petstore.persistence.Remove;
 import org.agoncal.application.petstore.util.Loggable;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.io.Serializable;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -21,7 +29,7 @@ import java.util.List;
 
 @Stateless
 @Loggable
-public class CatalogService implements Serializable {
+public abstract class CatalogService implements Serializable, InvocationHandler {
 
     // ======================================
     // =             Attributes             =
@@ -34,58 +42,36 @@ public class CatalogService implements Serializable {
     // =              Public Methods        =
     // ======================================
 
-    public Category findCategory(Long categoryId) {
-        if (categoryId == null)
-            throw new ValidationException("Invalid id");
+    @Find
+    public abstract Category findCategory(Long categoryId);
 
-        return em.find(Category.class, categoryId);
-    }
 
-    public Category findCategory(String categoryName) {
-        if (categoryName == null)
-            throw new ValidationException("Invalid name");
+    @NamedQuery(Category.FIND_BY_NAME)
+    public abstract Category findCategory(@QueryParam("pname") String categoryName);
 
-        TypedQuery<Category> typedQuery = em.createNamedQuery(Category.FIND_BY_NAME, Category.class);
-        typedQuery.setParameter("pname", categoryName);
-        return typedQuery.getSingleResult();
-    }
 
-    public List<Category> findAllCategories() {
-        TypedQuery<Category> typedQuery = em.createNamedQuery(Category.FIND_ALL, Category.class);
-        return typedQuery.getResultList();
-    }
+    @NamedQuery(Category.FIND_ALL)
+    public abstract List<Category> findAllCategories();
 
-    public Category createCategory(Category category) {
-        if (category == null)
-            throw new ValidationException("Category object is null");
 
-        em.persist(category);
-        return category;
-    }
+    @Persist
+    public abstract Category createCategory(Category category);
 
-    public Category updateCategory(Category category) {
-        if (category == null)
-            throw new ValidationException("Category object is null");
 
-        return em.merge(category);
-    }
+    @Merge
+    public abstract Category updateCategory(Category category);
 
-    public void removeCategory(Category category) {
-        if (category == null)
-            throw new ValidationException("Category object is null");
 
-        em.remove(em.merge(category));
-    }
+    @Remove
+    public abstract void removeCategory(Category category);
 
     public void removeCategory(Long categoryId) {
         removeCategory(findCategory(categoryId));
     }
 
-    public List<Product> findProducts(String categoryName) {
-        TypedQuery<Product> typedQuery = em.createNamedQuery(Product.FIND_BY_CATEGORY_NAME, Product.class);
-        typedQuery.setParameter("pname", categoryName);
-        return typedQuery.getResultList();
-    }
+    @NamedQuery(Product.FIND_BY_CATEGORY_NAME)
+    public abstract List<Product> findProducts(String categoryName);
+
 
     public Product findProduct(Long productId) {
         if (productId == null)
@@ -98,10 +84,9 @@ public class CatalogService implements Serializable {
         return product;
     }
 
-    public List<Product> findAllProducts() {
-        TypedQuery<Product> typedQuery = em.createNamedQuery(Product.FIND_ALL, Product.class);
-        return typedQuery.getResultList();
-    }
+    @NamedQuery(Product.FIND_ALL)
+    public abstract List<Product> findAllProducts();
+
 
     public Product createProduct(Product product) {
         if (product == null)
@@ -114,49 +99,37 @@ public class CatalogService implements Serializable {
         return product;
     }
 
-    public Product updateProduct(Product product) {
-        if (product == null)
-            throw new ValidationException("Product object is null");
+    @Merge
+    public abstract Product updateProduct(Product product);
 
-        return em.merge(product);
-    }
 
-    public void removeProduct(Product product) {
-        if (product == null)
-            throw new ValidationException("Product object is null");
+    @Remove
+    public abstract void removeProduct(Product product);
 
-        em.remove(em.merge(product));
-    }
 
     public void removeProduct(Long productId) {
         removeProduct(findProduct(productId));
     }
 
-    public List<Item> findItems(Long productId) {
+    @NamedQuery(Item.FIND_BY_PRODUCT_ID)
+    public abstract List<Item> findItems(@QueryParam("productId") Long productId);
 
-        TypedQuery<Item> typedQuery = em.createNamedQuery(Item.FIND_BY_PRODUCT_ID, Item.class);
-        typedQuery.setParameter("productId", productId);
-        return typedQuery.getResultList();
-    }
 
-    public Item findItem(final Long itemId) {
-        if (itemId == null)
-            throw new ValidationException("Invalid id");
+    @Find
+    public abstract Item findItem(final Long itemId);
 
-        return em.find(Item.class, itemId);
-    }
 
     public List<Item> searchItems(String keyword) {
-
-        TypedQuery<Item> typedQuery = em.createNamedQuery(Item.SEARCH, Item.class);
-        typedQuery.setParameter("keyword", "%" + keyword.toUpperCase() + "%");
-        return typedQuery.getResultList();
+        return _searchItems("%" + keyword.toUpperCase() + "%");
     }
 
-    public List<Item> findAllItems() {
-        TypedQuery<Item> typedQuery = em.createNamedQuery(Item.FIND_ALL, Item.class);
-        return typedQuery.getResultList();
-    }
+    @NamedQuery(Item.SEARCH)
+    protected abstract List<Item> _searchItems(@QueryParam("keyword") String keyword);
+
+
+    @NamedQuery(Item.FIND_ALL)
+    public abstract List<Item> findAllItems();
+
 
     public Item createItem(Item item) {
         if (item == null)
@@ -172,21 +145,20 @@ public class CatalogService implements Serializable {
         return item;
     }
 
-    public Item updateItem(Item item) {
-        if (item == null)
-            throw new ValidationException("Item object is null");
+    @Merge
+    public abstract Item updateItem(Item item);
 
-        return em.merge(item);
-    }
 
-    public void removeItem(Item item) {
-        if (item == null)
-            throw new ValidationException("Item object is null");
+    @Remove
+    public abstract void removeItem(Item item);
 
-        em.remove(em.merge(item));
-    }
 
     public void removeItem(Long itemId) {
         removeItem(findItem(itemId));
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        return PersistenceHandler.invoke(this.em, method, args);
     }
 }
