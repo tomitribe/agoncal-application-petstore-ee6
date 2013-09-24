@@ -102,6 +102,7 @@ public class Item {
         this.imagePath = imagePath;
     }
 
+    @XmlTransient
     public Product getProduct() {
         return product;
     }

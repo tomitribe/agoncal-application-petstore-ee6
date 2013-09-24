@@ -94,6 +94,7 @@ public class Category {
         products.add(product);
     }
 
+    @XmlTransient
     public List<Product> getProducts() {
         return products;
     }

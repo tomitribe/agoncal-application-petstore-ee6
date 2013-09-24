@@ -1,15 +1,24 @@
 package org.agoncal.application.petstore.service;
 
 import org.agoncal.application.petstore.domain.Customer;
-import org.agoncal.application.petstore.exception.ValidationException;
+import org.agoncal.application.petstore.meta.Id;
+import org.agoncal.application.petstore.persistence.Find;
+import org.agoncal.application.petstore.persistence.Merge;
+import org.agoncal.application.petstore.persistence.NamedQuery;
+import org.agoncal.application.petstore.persistence.Persist;
+import org.agoncal.application.petstore.persistence.PersistenceHandler;
+import org.agoncal.application.petstore.persistence.QueryParam;
+import org.agoncal.application.petstore.persistence.Remove;
 import org.agoncal.application.petstore.util.Loggable;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import java.io.Serializable;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author Antonio Goncalves
@@ -19,7 +28,7 @@ import java.io.Serializable;
 
 @Stateless
 @Loggable
-public class CustomerService implements Serializable {
+public abstract class CustomerService implements Serializable, InvocationHandler {
 
     // ======================================
     // =             Attributes             =
@@ -33,72 +42,42 @@ public class CustomerService implements Serializable {
     // ======================================
 
     public boolean doesLoginAlreadyExist(final String login) {
-
-        if (login == null)
-            throw new ValidationException("Login cannot be null");
-
-        // Login has to be unique
-        TypedQuery<Customer> typedQuery = em.createNamedQuery(Customer.FIND_BY_LOGIN, Customer.class);
-        typedQuery.setParameter("login", login);
         try {
-            typedQuery.getSingleResult();
+            findCustomer(login);
             return true;
         } catch (NoResultException e) {
             return false;
         }
     }
 
-    public Customer createCustomer(final Customer customer) {
+    @Persist
+    public abstract Customer createCustomer(final Customer customer);
 
-        if (customer == null)
-            throw new ValidationException("Customer object is null");
+    @NamedQuery(Customer.FIND_ALL)
+    public abstract List<Customer> findAllCustomers();
 
-        em.persist(customer);
 
-        return customer;
-    }
+    @Find
+    public abstract Customer findCustomer(@Id Long id);
 
-    public Customer findCustomer(final String login) {
+    @NamedQuery(Customer.FIND_BY_LOGIN)
+    public abstract Customer findCustomer(@QueryParam("login") final String login);
 
-        if (login == null)
-            throw new ValidationException("Invalid login");
 
-        TypedQuery<Customer> typedQuery = em.createNamedQuery(Customer.FIND_BY_LOGIN, Customer.class);
-        typedQuery.setParameter("login", login);
+    @NamedQuery(Customer.FIND_BY_LOGIN_PASSWORD)
+    public abstract Customer findCustomer(@QueryParam("login") final String login, @QueryParam("login") final String password);
 
-        return typedQuery.getSingleResult();
-    }
 
-    public Customer findCustomer(final String login, final String password) {
+    @Merge
+    public abstract Customer updateCustomer(final Customer customer);
 
-        if (login == null)
-            throw new ValidationException("Invalid login");
-        if (password == null)
-            throw new ValidationException("Invalid password");
 
-        TypedQuery<Customer> typedQuery = em.createNamedQuery(Customer.FIND_BY_LOGIN_PASSWORD, Customer.class);
-        typedQuery.setParameter("login", login);
-        typedQuery.setParameter("password", password);
+    @Remove
+    public abstract void removeCustomer(final Customer customer);
 
-        return typedQuery.getSingleResult();
-    }
 
-    public Customer updateCustomer(final Customer customer) {
-
-        // Make sure the object is valid
-        if (customer == null)
-            throw new ValidationException("Customer object is null");
-
-        // Update the object in the database
-        em.merge(customer);
-
-        return customer;
-    }
-
-    public void removeCustomer(final Customer customer) {
-        if (customer == null)
-            throw new ValidationException("Customer object is null");
-
-        em.remove(em.merge(customer));
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        return PersistenceHandler.invoke(em, method, args);
     }
 }

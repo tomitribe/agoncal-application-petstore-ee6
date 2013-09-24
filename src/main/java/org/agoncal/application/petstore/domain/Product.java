@@ -89,6 +89,7 @@ public class Product {
         this.description = description;
     }
 
+    @XmlTransient
     public Category getCategory() {
         return category;
     }
@@ -103,6 +104,7 @@ public class Product {
         items.add(item);
     }
 
+    @XmlTransient
     public List<Item> getItems() {
         return items;
     }
