@@ -7,10 +7,13 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.ejb.EJBException;
 import javax.inject.Inject;
+import javax.validation.ConstraintViolationException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 /**
  * @author Antonio Goncalves
@@ -150,5 +153,27 @@ public class CatalogServiceTest extends AbstractServiceTest {
 
         // Finds all the objects and checks there's one less
         assertEquals("Should have an extra object", initialNumber, catalogService.findAllItems().size());
+    }
+
+    @Test
+    public void itemPriceValidation() {
+
+        // Creates an object
+        Category category = new Category("Fish", "Here fishy fishy fishy!");
+        Product product = new Product("Angelfish", "Saltwater fish from Australia", category);
+        Item item = new Item("Sickly Fish", 5.00f, "fish1.jpg", product, "This one doesn't look so healthy, sell it cheap!");
+
+        try {
+            // Persists the object
+            item = catalogService.createItem(item);
+
+            fail("Price should violate @Price constraint");
+        } catch (EJBException e) {
+            if (!(e.getCause() instanceof ConstraintViolationException)) {
+                fail("Wrong exception type received");
+            }
+
+            // PASS -- ConstraintViolationException
+        }
     }
 }
