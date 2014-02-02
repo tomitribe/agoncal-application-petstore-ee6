@@ -15,11 +15,10 @@
     <version.junit>4.11</version.junit>
     <version.mockito>1.9.0</version.mockito>
     <version.arquillian>1.1.1.Final</version.arquillian>
-    <version.openejb>4.6.1-SNAPSHOT</version.openejb>
+    <version.openejb>4.6.0</version.openejb>
     <version.openejb.javaee-api>6.0-5</version.openejb.javaee-api>
-    <version.tomee>1.6.1-SNAPSHOT</version.tomee>
+    <version.tomee>1.6.0</version.tomee>
     <version.myfaces>2.1.12</version.myfaces>
-    <deltaspike.version>0.5</deltaspike.version>
     <version.maven.war.plugin>2.4</version.maven.war.plugin>
     <version.maven.compiler.plugin>3.1</version.maven.compiler.plugin>
     <version.maven.surefire.plugin>2.16</version.maven.surefire.plugin>
@@ -103,20 +102,6 @@
       <groupId>org.primefaces.themes</groupId>
       <artifactId>all-themes</artifactId>
       <version>1.0.10</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.deltaspike.core</groupId>
-      <artifactId>deltaspike-core-api</artifactId>
-      <version>${deltaspike.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.deltaspike.core</groupId>
-      <artifactId>deltaspike-core-impl</artifactId>
-      <version>${deltaspike.version}</version>
-      <scope>runtime</scope>
     </dependency>
   </dependencies>
 
