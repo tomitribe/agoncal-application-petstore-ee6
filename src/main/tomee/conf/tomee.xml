@@ -1,0 +1,14 @@
+<tomee>
+
+  <Resource id="TelnetConnector" class-name="org.tomitribe.telnet.adapter.TelnetResourceAdapter">
+    port = 2020
+    prompt = prompt>
+  </Resource>
+
+  <Container id="TelnetContainer" type="MESSAGE">
+    ResourceAdapter = TelnetConnector
+    MessageListenerInterface = org.tomitribe.telnet.api.TelnetListener
+    ActivationSpecClass = org.tomitribe.telnet.adapter.TelnetActivationSpec
+  </Container>
+
+</tomee>
