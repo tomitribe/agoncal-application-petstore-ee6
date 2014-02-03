@@ -67,6 +67,37 @@ public class CatalogCLI implements TelnetListener {
         return asTable(Arrays.asList(added));
     }
 
+    @Command
+    public String updateItem(
+            @Option("product") String productName,
+            @Option("description") String description,
+            @Option("image") String image,
+            @Option("price") Float price,
+            @Option("name") String name,
+            Long id
+    ) {
+
+        final Item item = catalogService.findItem(id);
+
+        if (name != null) item.setName(name);
+        if (price != null) item.setUnitCost(price);
+        if (description != null) item.setDescription(description);
+        if (image != null) item.setImagePath(image);
+        if (productName != null) {
+            final List<Product> products = catalogService.findProductsByName(productName);
+            if (products.size() == 0) {
+                return "No such Product: " + productName;
+            }
+
+            final Product product = products.get(0);
+            item.setProduct(product);
+        }
+
+        final Item updated = catalogService.updateItem(item);
+
+        return asTable(Arrays.asList(updated));
+    }
+
     private String asTable(List<Item> items) {
         final PrintString out = new PrintString();
 
