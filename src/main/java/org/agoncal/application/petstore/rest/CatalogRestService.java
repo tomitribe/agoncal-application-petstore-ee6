@@ -3,16 +3,21 @@ package org.agoncal.application.petstore.rest;
 import org.agoncal.application.petstore.domain.Category;
 import org.agoncal.application.petstore.domain.Item;
 import org.agoncal.application.petstore.domain.Product;
-import org.agoncal.application.petstore.meta.Id;
-import org.agoncal.application.petstore.meta.StandardConsumes;
-import org.agoncal.application.petstore.meta.StandardProduces;
 import org.agoncal.application.petstore.service.CatalogService;
 import org.agoncal.application.petstore.util.Loggable;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBElement;
@@ -46,21 +51,21 @@ public class CatalogRestService implements Serializable {
 
     @GET
     @Path("/categories")
-    @StandardProduces
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public List<Category> findAllCategories() {
         return catalogService.findAllCategories();
     }
 
     @GET
     @Path("/category/{id}")
-    @StandardProduces
-    public Category findCategory(@Id Long categoryId) {
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public Category findCategory(@PathParam("id") Long categoryId) {
         return catalogService.findCategory(categoryId);
     }
 
     @POST
     @Path("/category")
-    @StandardConsumes
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response createCategory(JAXBElement<Category> xmlCategory) {
         Category category = catalogService.createCategory(xmlCategory.getValue());
         URI uri = uriInfo.getAbsolutePathBuilder().path(category.getId().toString()).build();
@@ -69,7 +74,7 @@ public class CatalogRestService implements Serializable {
 
     @PUT
     @Path("/category")
-    @StandardConsumes
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response updateCategory(JAXBElement<Category> xmlCategory) {
         Category category = catalogService.updateCategory(xmlCategory.getValue());
         URI uri = uriInfo.getAbsolutePathBuilder().path(category.getId().toString()).build();
@@ -78,28 +83,28 @@ public class CatalogRestService implements Serializable {
 
     @DELETE
     @Path("/category/{id}")
-    public Response removeCategory(@Id Long categoryId) {
+    public Response removeCategory(@PathParam("id") Long categoryId) {
         catalogService.removeCategory(categoryId);
         return Response.noContent().build();
     }
 
     @GET
     @Path("/products")
-    @StandardProduces
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public List<Product> findAllProducts() {
         return catalogService.findAllProducts();
     }
 
     @GET
     @Path("/product/{id}")
-    @StandardProduces
-    public Product findProduct(@Id Long productId) {
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public Product findProduct(@PathParam("id") Long productId) {
         return catalogService.findProduct(productId);
     }
 
     @POST
     @Path("/product")
-    @StandardConsumes
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response createProduct(JAXBElement<Product> xmlProduct) {
         Product product = catalogService.createProduct(xmlProduct.getValue());
         URI uri = uriInfo.getAbsolutePathBuilder().path(product.getId().toString()).build();
@@ -108,7 +113,7 @@ public class CatalogRestService implements Serializable {
 
     @PUT
     @Path("/product")
-    @StandardConsumes
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response updateProduct(JAXBElement<Product> xmlProduct) {
         Product product = catalogService.updateProduct(xmlProduct.getValue());
         URI uri = uriInfo.getAbsolutePathBuilder().path(product.getId().toString()).build();
@@ -117,28 +122,28 @@ public class CatalogRestService implements Serializable {
 
     @DELETE
     @Path("/product/{id}")
-    public Response removeProduct(@Id Long productId) {
+    public Response removeProduct(@PathParam("id") Long productId) {
         catalogService.removeProduct(productId);
         return Response.noContent().build();
     }
 
     @GET
     @Path("/items")
-    @StandardProduces
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public List<Item> findAllItems() {
         return catalogService.findAllItems();
     }
 
     @GET
     @Path("/item/{id}")
-    @StandardProduces
-    public Item findItem(@Id Long itemId) {
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public Item findItem(@PathParam("id") Long itemId) {
         return catalogService.findItem(itemId);
     }
 
     @POST
     @Path("/item")
-    @StandardConsumes
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response createItem(JAXBElement<Item> xmlItem) {
         Item item = catalogService.createItem(xmlItem.getValue());
         URI uri = uriInfo.getAbsolutePathBuilder().path(item.getId().toString()).build();
@@ -147,7 +152,7 @@ public class CatalogRestService implements Serializable {
 
     @PUT
     @Path("/item")
-    @StandardConsumes
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response updateItem(JAXBElement<Item> xmlItem) {
         Item item = catalogService.updateItem(xmlItem.getValue());
         URI uri = uriInfo.getAbsolutePathBuilder().path(item.getId().toString()).build();
@@ -156,7 +161,7 @@ public class CatalogRestService implements Serializable {
 
     @DELETE
     @Path("/item/{id}")
-    public Response removeItem(@Id Long itemId) {
+    public Response removeItem(@PathParam("id") Long itemId) {
         catalogService.removeItem(itemId);
         return Response.noContent().build();
     }

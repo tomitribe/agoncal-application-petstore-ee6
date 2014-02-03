@@ -1,7 +1,6 @@
 package org.agoncal.application.petstore.service;
 
 import org.agoncal.application.petstore.domain.Customer;
-import org.agoncal.application.petstore.meta.Id;
 import org.agoncal.application.petstore.persistence.Find;
 import org.agoncal.application.petstore.persistence.Merge;
 import org.agoncal.application.petstore.persistence.NamedQuery;
@@ -58,7 +57,7 @@ public abstract class CustomerService implements Serializable, InvocationHandler
 
 
     @Find
-    public abstract Customer findCustomer(@Id Long id);
+    public abstract Customer findCustomer(Long id);
 
     @NamedQuery(Customer.FIND_BY_LOGIN)
     public abstract Customer findCustomer(@QueryParam("login") final String login);
