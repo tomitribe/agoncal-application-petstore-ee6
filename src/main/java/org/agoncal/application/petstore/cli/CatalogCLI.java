@@ -4,11 +4,12 @@
  *
  * =====================================================================
  */
-package org.agoncal.application.petstore.service;
+package org.agoncal.application.petstore.cli;
 
 import org.agoncal.application.petstore.domain.Category;
 import org.agoncal.application.petstore.domain.Item;
 import org.agoncal.application.petstore.domain.Product;
+import org.agoncal.application.petstore.service.CatalogService;
 import org.tomitribe.crest.api.Command;
 import org.tomitribe.crest.api.Default;
 import org.tomitribe.crest.api.Option;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//@MessageDriven
+@MessageDriven
 public class CatalogCLI implements TelnetListener {
 
     @EJB
