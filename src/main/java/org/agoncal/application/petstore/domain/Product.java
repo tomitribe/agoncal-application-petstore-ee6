@@ -18,6 +18,7 @@ import java.util.List;
 @NamedQueries({
         // TODO fetch doesn't work with GlassFish @NamedQuery(name = Product.FIND_BY_CATEGORY_NAME, query = "SELECT p FROM Product p LEFT JOIN FETCH p.items WHERE p.category.name = :pname"),
         @NamedQuery(name = Product.FIND_BY_CATEGORY_NAME, query = "SELECT p FROM Product p WHERE p.category.name = :pname"),
+        @NamedQuery(name = Product.FIND_BY_PRODUCT_NAME, query = "SELECT p FROM Product p WHERE p.name = :pname"),
         @NamedQuery(name = Product.FIND_ALL, query = "SELECT p FROM Product p")
 })
 @XmlRootElement
@@ -50,6 +51,7 @@ public class Product {
     // ======================================
 
     public static final String FIND_BY_CATEGORY_NAME = "Product.findByCategoryName";
+    public static final String FIND_BY_PRODUCT_NAME = "Product.findByProductName";
     public static final String FIND_ALL = "Product.findAll";
 
     // ======================================

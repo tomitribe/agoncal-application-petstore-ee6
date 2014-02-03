@@ -70,7 +70,10 @@ public abstract class CatalogService implements Serializable, InvocationHandler 
     }
 
     @NamedQuery(Product.FIND_BY_CATEGORY_NAME)
-    public abstract List<Product> findProducts(String categoryName);
+    public abstract List<Product> findProducts(@QueryParam("pname") String categoryName);
+
+    @NamedQuery(Product.FIND_BY_PRODUCT_NAME)
+    public abstract List<Product> findProductsByName(@QueryParam("pname") String productName);
 
 
     public Product findProduct(Long productId) {

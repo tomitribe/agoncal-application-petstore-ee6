@@ -11,6 +11,8 @@ import javax.ejb.EJBException;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
@@ -116,6 +118,22 @@ public class CatalogServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    public void findProductByName() {
+
+        // Creates an object
+        Category category = new Category("Fish", "Any of numerous cold-blooded aquatic vertebrates characteristically having fins, gills, and a streamlined body");
+        Product product = new Product("GoFish", "Fun game for children", category);
+
+        // Persists the object
+        product = catalogService.createProduct(product);
+        Long id = product.getId();
+
+        final List<Product> productsByName = catalogService.findProductsByName(product.getName());
+
+        assertEquals(1, productsByName.size());
+    }
+
+    @Test
     public void shouldCRUDanItem() {
 
         // Finds all the objects
@@ -153,6 +171,14 @@ public class CatalogServiceTest extends AbstractServiceTest {
 
         // Finds all the objects and checks there's one less
         assertEquals("Should have an extra object", initialNumber, catalogService.findAllItems().size());
+    }
+
+    @Test
+    public void search() {
+
+        // Finds all the objects
+        final List<Item> fish = catalogService.searchItems("Fish");
+        assertEquals(10, fish.size());
     }
 
     @Test
