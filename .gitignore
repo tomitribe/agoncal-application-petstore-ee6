@@ -1,16 +1,29 @@
 .DS_Store
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# IDEA #
+*.iml
 .idea
 *.vpdm
 *.log
-*.iml
+# eclipse specific git ignore
 vpproject
-target
-*.ipr
-*.iws
+.metadata
 rebel.xml
 *DB
 *.dat
 .classpath
-.project
-.settings
+.settings/
+
 WebContent
+# Maven files #
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.next
+release.properties
