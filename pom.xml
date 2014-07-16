@@ -6,22 +6,23 @@
   <groupId>org.agoncal.application</groupId>
   <artifactId>petstoreee6</artifactId>
   <packaging>war</packaging>
-  <version>1.0</version>
+  <version>1.0.1-SNAPSHOT</version>
+
   <name>Petstore application using Java EE 6</name>
 
   <properties>
-    <version.java>1.7</version.java>
+    <version.java>1.6</version.java>
     <version.derby>10.8.2.2</version.derby>
     <version.junit>4.11</version.junit>
-    <version.mockito>1.9.0</version.mockito>
-    <version.arquillian>1.1.1.Final</version.arquillian>
-    <version.openejb>4.6.0</version.openejb>
-    <version.openejb.javaee-api>6.0-5</version.openejb.javaee-api>
-    <version.tomee>1.6.0</version.tomee>
+    <version.mockito>1.9.5</version.mockito>
+    <version.arquillian>1.1.5.Final</version.arquillian>
+    <version.openejb>4.7.0-SNAPSHOT</version.openejb>
+    <version.openejb.javaee-api>6.0-6</version.openejb.javaee-api>
+    <version.tomee>1.7.0-SNAPSHOT</version.tomee>
     <version.myfaces>2.1.12</version.myfaces>
     <version.maven.war.plugin>2.4</version.maven.war.plugin>
     <version.maven.compiler.plugin>3.1</version.maven.compiler.plugin>
-    <version.maven.surefire.plugin>2.16</version.maven.surefire.plugin>
+    <version.maven.surefire.plugin>2.17</version.maven.surefire.plugin>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <context>ROOT</context>
