@@ -7,6 +7,9 @@ import org.agoncal.application.petstore.service.CatalogService;
 import org.agoncal.application.petstore.util.Loggable;
 
 import javax.annotation.ManagedBean;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -26,7 +29,8 @@ import java.util.List;
 
 @Loggable
 @Path("/catalog")
-@ManagedBean
+@Singleton
+@Lock(LockType.READ)
 public class CatalogRestService implements Serializable {
 
     // ======================================
