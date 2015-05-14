@@ -1,14 +1,15 @@
 <tomee>
 
-  <Resource id="TelnetConnector" class-name="org.tomitribe.telnet.adapter.TelnetResourceAdapter">
-    port = 2020
+  <Resource id="CrestConnector" class-name="org.tomitribe.crest.connector.adapter.CrestResourceAdapter">
+    telnetPort = 2020
+    sshPort = 2222
     prompt = prompt>
   </Resource>
 
-  <Container id="TelnetContainer" type="MESSAGE">
-    ResourceAdapter = TelnetConnector
-    MessageListenerInterface = org.tomitribe.telnet.api.TelnetListener
-    ActivationSpecClass = org.tomitribe.telnet.adapter.TelnetActivationSpec
+  <Container id="CrestContainer" type="MESSAGE">
+    ResourceAdapter = CrestConnector
+    MessageListenerInterface = org.tomitribe.crest.connector.api.CrestListener
+    ActivationSpecClass = org.tomitribe.crest.connector.adapter.CrestActivationSpec
   </Container>
 
 </tomee>
