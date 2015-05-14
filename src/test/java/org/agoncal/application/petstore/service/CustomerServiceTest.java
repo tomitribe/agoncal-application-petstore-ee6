@@ -1,11 +1,9 @@
 package org.agoncal.application.petstore.service;
 
 import org.agoncal.application.petstore.domain.Address;
-import org.agoncal.application.petstore.domain.Category;
 import org.agoncal.application.petstore.domain.Customer;
-import org.agoncal.application.petstore.domain.Item;
-import org.agoncal.application.petstore.domain.Product;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,7 +16,7 @@ import static org.junit.Assert.assertNull;
  * @author Antonio Goncalves
  *         http://www.antoniogoncalves.org
  */
-//@Ignore
+@Ignore
 @RunWith(Arquillian.class)
 public class CustomerServiceTest extends AbstractServiceTest {
 

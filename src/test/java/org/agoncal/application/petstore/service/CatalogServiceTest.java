@@ -4,13 +4,13 @@ import org.agoncal.application.petstore.domain.Category;
 import org.agoncal.application.petstore.domain.Item;
 import org.agoncal.application.petstore.domain.Product;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJBException;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
-
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
  * @author Antonio Goncalves
  *         http://www.antoniogoncalves.org
  */
-//@Ignore
+@Ignore
 @RunWith(Arquillian.class)
 public class CatalogServiceTest extends AbstractServiceTest {
 
