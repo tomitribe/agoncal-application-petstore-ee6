@@ -13,7 +13,7 @@ import org.agoncal.application.petstore.service.CatalogService;
 import org.tomitribe.crest.api.Command;
 import org.tomitribe.crest.api.Default;
 import org.tomitribe.crest.api.Option;
-import org.tomitribe.telnet.api.TelnetListener;
+import org.tomitribe.crest.connector.api.CrestListener;
 import org.tomitribe.util.PrintString;
 
 import javax.ejb.EJB;
@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @MessageDriven
-public class CatalogCLI implements TelnetListener {
+public class CatalogCLI implements CrestListener {
 
     @EJB
     public CatalogService catalogService;
