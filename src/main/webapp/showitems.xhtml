@@ -20,7 +20,7 @@
         <h2>#{i18n.showItems_itemForProduct} : #{catalogController.product.name}</h2>
 
         <h:outputText value="#{i18n.noItemsFound}"
-                      rendered="#{catalogController.items == null || catalogController.items.size() ==0}"/>
+                      rendered="#{catalogController.items == null || empty catalogController.items}"/>
 
         <h:form>
             <p:carousel id="basicCarousel" value="#{catalogController.items}" var="oneItem"

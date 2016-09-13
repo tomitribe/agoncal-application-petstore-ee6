@@ -135,7 +135,7 @@ public class ShoppingCartController extends Controller implements Serializable {
         return cartItems;
     }
 
-    public boolean shoppingCartIsEmpty() {
+    public boolean isShoppingCartIsEmpty() {
         return getCartItems() == null || getCartItems().size() == 0;
     }
 

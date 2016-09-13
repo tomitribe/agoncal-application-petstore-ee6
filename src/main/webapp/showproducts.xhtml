@@ -20,7 +20,7 @@
         <h2>#{i18n.showProducts_productForCategory} : #{catalogController.categoryName}</h2>
 
         <h:outputText value="#{i18n.product_noProductFound}"
-                      rendered="#{catalogController.products == null || catalogController.products.size() == 0}"/>
+                      rendered="#{catalogController.products == null || empty catalogController.products}"/>
 
         <p:dataTable value="#{catalogController.products}" var="oneProduct"
                      rendered="#{catalogController.products.size() > 0}" styleClass="pet">
